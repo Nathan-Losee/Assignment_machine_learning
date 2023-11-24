@@ -7,8 +7,7 @@ pd.set_option('display.max_columns', 1000)
 # Load the dataset
 column_names = ['Class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
 data = pd.read_csv('breast-cancer.data', header=None, names=column_names)
-data['tumor-size'] = data['tumor-size'].apply(lambda x: '05-09' if x == '5-9' else x)
-print(data.head())
+data['tumor-size'] = data['tumor-size'].apply(lambda x: '05-09' if x == '5-9' else x) #transform so it stays in order
 
 label_encoder = LabelEncoder()
 for column in data.columns:
@@ -16,7 +15,6 @@ for column in data.columns:
         data[column] = label_encoder.fit_transform(data[column])
 # Dropping rows with missing values
 data = data.dropna()
-print(data.head())
 # Selecting features for clustering
 X = data.drop('Class', axis=1)
 
@@ -77,7 +75,7 @@ for i, centroid in enumerate(kmeans.cluster_centers_):
     plt.text(centroid[X.columns.get_loc(feature1)], centroid[X.columns.get_loc(feature2)], str(i+1), fontsize=12, color='black', ha='center', va='center')
 
 
-age_ticks = sorted(data[feature1].unique())
+age_ticks = sorted(data[feature1].unique()) #Get the original labels back
 age_labels = {
     0: '20-29',
     1: '30-39',
@@ -86,7 +84,7 @@ age_labels = {
     4: '60-69',
     5: '70-79'
 }
-tumor_ticks = sorted(data[feature2].unique())
+tumor_ticks = sorted(data[feature2].unique()) #Get the original labels back
 tumor_labels = {
     0: '0-4',
     1: '05-09',
